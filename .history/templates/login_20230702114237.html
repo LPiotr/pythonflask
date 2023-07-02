@@ -1,0 +1,64 @@
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Formularz logowania</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+</head>
+<body>	
+<div class="container">
+	<h2>User Login</h2>
+	<form action="{{ url_for('login') }}" method="post">
+	    {% if mesage is defined and mesage %}
+			<div class="alert alert-warning">{{ mesage }}</div>
+		{% endif %}
+		<div class="form-group">
+			<label for="email">Mail:</label>
+			<input type="email" class="form-control" id="email" name="email" placeholder="Enter email" name="email">
+		</div>
+		<div class="form-group">
+			<label for="pwd">Hasło:</label>
+			<input type="password" class="form-control" id="password" name="password" placeholder="Enter password" name="pswd">
+		</div>    
+		<button type="submit" class="btn btn-primary">Login</button>
+		<p class="bottom">Nie masz konta?  <a class="bottom" href="{{url_for('register')}}"> Zarejestruj tutaj</a></p>
+	</form>
+</div>
+</body>
+</html>
+When user login successfully, it will redirect to user.html to display loggedin page. Here is complete user.html file.
+
+<html>
+<head>
+<!-- SCRIPTS -->
+<script>
+	var source = new EventSource('/stream');
+	source.onmessage = function(event) {
+		var data = JSON.parse(event.data);
+		document.getElementById("message").innerHTML = data.message;
+	};
+</script>
+<!-- ENDSCRIPTS -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>User Account</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">              
+</head>
+<body>
+<div class="container">
+	<div class="row">	
+		<h1>User Profile</h1>
+	</div>
+	<br>
+	<div class="row">	
+		Logged in : <strong>{{session.name}} | <a href="{{ url_for('logout') }}"> Logout</a>
+	</div>
+	<br><br>
+	<div class="row">
+	    
+		<h2>Welcome to the user profile page...</h2> 
+	</div>		
+</div>
+<footer></footer>
+</body>
+</html>

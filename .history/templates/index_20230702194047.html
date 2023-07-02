@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Redis Time App</title>
+</head>
+<body>
+    <h1>Redis Time App</h1>
+    <p id="time"></p>
+
+    <script>
+        var eventSource = new EventSource("/time");
+
+        eventSource.onmessage = function(event) {
+            document.getElementById("time").innerText = event.data;
+        };
+    </script>
+</body>
+</html>

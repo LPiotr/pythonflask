@@ -1,0 +1,52 @@
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>User Account</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+    <script>
+        var source = new EventSource('/stream');
+        source.onmessage = function (event) {
+            document.getElementById("time").innerHTML = event.data;
+        };
+    </script>
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <h2>Profil użytkownika</h2>
+        </div>
+        <br>
+        <table class="table table-hover table-dark w-auto">
+            <tr>
+                <td>Imię i nazwisko:</td>
+                <td>Piotr Lebelt</td>
+            </tr>
+            <tr>
+                <td>Nr indeksu:</td>
+                <td>155243</td>
+            </tr>
+        </table>
+
+        <div class="row">
+            Logged in : <strong>{{session.name}} | <a href="{{ url_for('logout') }}"> Logout</a>
+        </div>
+        <br><br>
+        <div class="row">
+
+
+        </div>
+    </div>
+    <footer>
+        <div id="time"></div>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                fetch('/send_message');
+            });
+        </script>
+    </footer>
+</body>
+
+</html>
