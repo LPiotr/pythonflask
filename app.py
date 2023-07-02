@@ -39,7 +39,7 @@ def login():
             session['name'] = user['name']
             session['email'] = user['email']
             mesage = 'Zalogowano pomyślnie !'
-            return render_template('user.html', mesage = mesage)
+            return render_template('dashboard.html', mesage = mesage)
         else:
             mesage = 'Proszę wprowadż poprawny email lub hasło !'
     return render_template('login.html', mesage = mesage)
