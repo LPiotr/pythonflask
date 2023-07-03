@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for, session, Response
 from gevent.pywsgi import WSGIServer
 from flask_mysqldb import MySQL
-import redis
+#import redis
 import MySQLdb.cursors
 from datetime import datetime
 import time
@@ -12,7 +12,7 @@ import locale
 locale.setlocale(locale.LC_TIME, 'pl_PL')
 
 app = Flask(__name__)
-r = redis.Redis(host='192.168.100.18', port=6379, db=0, charset='utf-8')
+# r = redis.Redis(host='192.168.100.18', port=6379, db=0, charset='utf-8')
 
 app.secret_key = 'xyzsdfg'
 app.config['MYSQL_HOST'] = 'localhost'
@@ -24,6 +24,10 @@ mysql = MySQL(app)
 
 
 @app.route('/')
+def dashboard():
+    return render_template('dashboard.html')
+
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     message = ''
@@ -40,7 +44,7 @@ def login():
             session['name'] = user['name']
             session['email'] = user['email']
             message = 'Zalogowano pomyślnie!'
-            return redirect(url_for('dashboard'))
+            return redirect(url_for('users'))
         else:
             message = 'Proszę wprowadź poprawny email lub hasło!'
     return render_template('login.html', message=message)
@@ -51,7 +55,7 @@ def logout():
     session.pop('loggedin', None)
     session.pop('userid', None)
     session.pop('email', None)
-    return redirect(url_for('login'))
+    return redirect(url_for('dashboard'))
 
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -82,13 +86,6 @@ def register():
     return render_template('register.html', message=message)
 
 
-@app.route('/dashboard')
-def dashboard():
-    if 'loggedin' in session:
-        return render_template('dashboard.html')
-    return redirect(url_for('login'))
-
-
 @app.route("/listen")
 def listen():
     def respond_to_client():
@@ -99,6 +96,7 @@ def listen():
             yield f"id: 1\ndata: {_data}\nevent: online\n\n"
             time.sleep(0.5)
     return Response(respond_to_client(), mimetype='text/event-stream')
+
 
 @app.route('/users')
 def users():

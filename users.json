@@ -1,50 +1,60 @@
 [
   {
+    "id": 1,
     "username": "JanKowalski",
     "email": "jan.kowalski@example.com",
     "password": "haslo123"
   },
   {
+    "id": 2,
     "username": "AnnaNowak",
     "email": "anna.nowak@example.com",
     "password": "tajnehaslo"
   },
   {
+    "id": 3,
     "username": "PiotrMazur",
     "email": "piotr.mazur@example.com",
     "password": "mocnehaslo"
   },
   {
+    "id": 4,
     "username": "MagdaKaczmarek",
     "email": "magda.kaczmarek@example.com",
     "password": "bezpiecznehaslo"
   },
   {
+    "id": 5,
     "username": "AdamWojcik",
     "email": "adam.wojcik@example.com",
     "password": "tajnepass"
   },
   {
+    "id": 6,
     "username": "KatarzynaKwiatkowska",
     "email": "katarzyna.kwiatkowska@example.com",
     "password": "szyfrowanehaslo"
   },
   {
+    "id": 7,
     "username": "MarcinKaczynski",
     "email": "marcin.kaczynski@example.com",
     "password": "silnehaslo123"
   },
   {
+    "id": 8,
     "username": "NataliaZajac",
     "email": "natalia.zajac@example.com",
     "password": "bezpiecznehaslo123"
   },
   {
+    "id": 9,
     "username": "TomaszKowalczyk",
     "email": "tomasz.kowalczyk@example.com",
     "password": "tajnehaslo456"
   },
   {
+    "id": 10,
     "username": "AlicjaMichalak",
     "email": "alicja.michalak@example.com",
     "password": "haslotajne"
