@@ -1,0 +1,52 @@
+[
+  {
+    "username": "JanKowalski",
+    "email": "jan.kowalski@example.com",
+    "password": "haslo123"
+  },
+  {
+    "username": "AnnaNowak",
+    "email": "anna.nowak@example.com",
+    "password": "tajnehaslo"
+  },
+  {
+    "username": "PiotrMazur",
+    "email": "piotr.mazur@example.com",
+    "password": "mocnehaslo"
+  },
+  {
+    "username": "MagdaKaczmarek",
+    "email": "magda.kaczmarek@example.com",
+    "password": "bezpiecznehaslo"
+  },
+  {
+    "username": "AdamWojcik",
+    "email": "adam.wojcik@example.com",
+    "password": "tajnepass"
+  },
+  {
+    "username": "KatarzynaKwiatkowska",
+    "email": "katarzyna.kwiatkowska@example.com",
+    "password": "szyfrowanehaslo"
+  },
+  {
+    "username": "MarcinKaczynski",
+    "email": "marcin.kaczynski@example.com",
+    "password": "silnehaslo123"
+  },
+  {
+    "username": "NataliaZajac",
+    "email": "natalia.zajac@example.com",
+    "password": "bezpiecznehaslo123"
+  },
+  {
+    "username": "TomaszKowalczyk",
+    "email": "tomasz.kowalczyk@example.com",
+    "password": "tajnehaslo456"
+  },
+  {
+    "username": "AlicjaMichalak",
+    "email": "alicja.michalak@example.com",
+    "password": "haslotajne"
+  }
+]

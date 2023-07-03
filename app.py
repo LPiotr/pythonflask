@@ -4,12 +4,10 @@ from flask_mysqldb import MySQL
 import redis
 import MySQLdb.cursors
 from datetime import datetime
-import time 
+import time
 import json
 import re
 import locale
-
-
 
 locale.setlocale(locale.LC_TIME, 'pl_PL')
 
@@ -21,32 +19,32 @@ app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'root'
 app.config['MYSQL_PASSWORD'] = ''
 app.config['MYSQL_DB'] = 'flask'
-  
+
 mysql = MySQL(app)
 
 
-
 @app.route('/')
-@app.route('/login', methods =['GET', 'POST'])
+@app.route('/login', methods=['GET', 'POST'])
 def login():
-    mesage = ''
+    message = ''
     if request.method == 'POST' and 'email' in request.form and 'password' in request.form:
         email = request.form['email']
         password = request.form['password']
         cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-        cursor.execute('SELECT * FROM users WHERE email = % s AND password = % s', (email, password, ))
+        cursor.execute(
+            'SELECT * FROM users WHERE email = %s AND password = %s', (email, password,))
         user = cursor.fetchone()
         if user:
             session['loggedin'] = True
             session['userid'] = user['userid']
             session['name'] = user['name']
             session['email'] = user['email']
-            mesage = 'Zalogowano pomyślnie !'
-            return render_template('dashboard.html', mesage = mesage)
+            message = 'Zalogowano pomyślnie!'
+            return redirect(url_for('dashboard'))
         else:
-            mesage = 'Proszę wprowadż poprawny email lub hasło !'
-    return render_template('login.html', mesage = mesage)
-  
+            message = 'Proszę wprowadź poprawny email lub hasło!'
+    return render_template('login.html', message=message)
+
 
 @app.route('/logout')
 def logout():
@@ -55,29 +53,40 @@ def logout():
     session.pop('email', None)
     return redirect(url_for('login'))
 
-@app.route('/register', methods =['GET', 'POST'])
+
+@app.route('/register', methods=['GET', 'POST'])
 def register():
-    mesage = ''
-    if request.method == 'POST' and 'name' in request.form and 'password' in request.form and 'email' in request.form :
+    message = ''
+    if request.method == 'POST' and 'name' in request.form and 'password' in request.form and 'email' in request.form:
         userName = request.form['name']
         password = request.form['password']
         email = request.form['email']
         cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-        cursor.execute('SELECT * FROM users WHERE email = % s', (email, ))
+        cursor.execute('SELECT * FROM users WHERE email = %s', (email,))
         account = cursor.fetchone()
         if account:
-            mesage = 'Konto z podanym adresem {} istnieje w bazie !'.format(email)
+            message = 'Konto z podanym adresem {} istnieje w bazie!'.format(
+                email)
         elif not re.match(r'[^@]+@[^@]+\.[^@]+', email):
-            mesage = 'Nieprawidłowy adres email !'
+            message = 'Nieprawidłowy adres email!'
         elif not userName or not password or not email:
-            mesage = 'Proszę wypełnić formularz !'
+            message = 'Proszę wypełnić formularz!'
         else:
-            cursor.execute('INSERT INTO users VALUES (NULL, % s, % s, % s)', (userName, password, email ))
+            cursor.execute(
+                'INSERT INTO users VALUES (NULL, %s, %s, %s)', (userName, password, email,))
             mysql.connection.commit()
-            mesage = 'Pomyślnie zarejestrowano nowego użytkownika {}!'.format(userName)
+            message = 'Pomyślnie zarejestrowano nowego użytkownika {}!'.format(
+                userName)
     elif request.method == 'POST':
-        mesage = 'Proszę wypełnić formularz !'
-    return render_template('register.html', mesage = mesage)
+        message = 'Proszę wypełnić formularz!'
+    return render_template('register.html', message=message)
+
+
+@app.route('/dashboard')
+def dashboard():
+    if 'loggedin' in session:
+        return render_template('dashboard.html')
+    return redirect(url_for('login'))
 
 
 @app.route("/listen")
@@ -86,14 +95,21 @@ def listen():
         while True:
             global current_time
             current_time = datetime.now().strftime("%c")
-            # current_time = datetime.now().strftime("%H:%M:%S")
             _data = json.dumps({"clock": current_time})
             yield f"id: 1\ndata: {_data}\nevent: online\n\n"
             time.sleep(0.5)
     return Response(respond_to_client(), mimetype='text/event-stream')
 
+@app.route('/users')
+def users():
+    if 'loggedin' in session:
+        with open('users.json', 'r') as file:
+            users = json.load(file)
+    
+        return render_template('users.html', users=users)
+
 
 if __name__ == "__main__":
-    app.run( debug=True)
+    app.run(debug=True)
     http_server = WSGIServer(("localhost", 80), app)
     http_server.serve_forever()
