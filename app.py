@@ -11,15 +11,14 @@ import locale
 
 locale.setlocale(locale.LC_TIME, 'pl_PL')
 
-app = Flask(__name__)
 # r = redis.Redis(host='192.168.100.18', port=6379, db=0, charset='utf-8')
 
-app.secret_key = 'xyzsdfg'
 app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'root'
 app.config['MYSQL_PASSWORD'] = ''
 app.config['MYSQL_DB'] = 'flask'
 
+app = Flask(__name__)
 mysql = MySQL(app)
 
 
